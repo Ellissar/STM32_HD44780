@@ -88,9 +88,37 @@ void LCD_Clear (void)
 }
 
 
+//Инициализация выводов микроконтроллера
+void LCD_InitPin(void)
+{
+	  /*__HAL_RCC_GPIOC_CLK_ENABLE();	// Если тактирование портов не включено нигде в коде, то раскомментировать эти две строки и
+	  __HAL_RCC_GPIOA_CLK_ENABLE();*/	// заменить в месте "_GPIOC_" и "_GPIOA_" на свои порты.
+
+	  GPIO_InitTypeDef GPIO_InitStruct;
+
+	  HAL_GPIO_WritePin(LCD_GPIO_PORT2, LCD_DB4_PIN|LCD_DB5_PIN|LCD_DB6_PIN|LCD_DB7_PIN, GPIO_PIN_RESET);
+
+	  HAL_GPIO_WritePin(LCD_GPIO_PORT1, LCD_E_PIN|LCD_RS_PIN, GPIO_PIN_RESET);
+
+	  GPIO_InitStruct.Pin = LCD_DB4_PIN|LCD_DB5_PIN|LCD_DB6_PIN|LCD_DB7_PIN;
+	  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	  GPIO_InitStruct.Pull = GPIO_NOPULL;
+	  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	  HAL_GPIO_Init(LCD_GPIO_PORT2, &GPIO_InitStruct);
+
+	  GPIO_InitStruct.Pin = LCD_E_PIN|LCD_RS_PIN;
+	  GPIO_InitStruct.Mode = GPIO_MODE_OUTPUT_PP;
+	  GPIO_InitStruct.Pull = GPIO_NOPULL;
+	  GPIO_InitStruct.Speed = GPIO_SPEED_FREQ_HIGH;
+	  HAL_GPIO_Init(LCD_GPIO_PORT1, &GPIO_InitStruct);
+}
+
+
 //Инициализация дисплея
 void LCD_Init (void)
 {
+	LCD_InitPin();
+
 	HAL_Delay(15);
 	E_0;
 	LCD_Send(0x03);		//1
