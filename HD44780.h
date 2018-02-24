@@ -19,36 +19,34 @@
 #include "stm32f3xx_hal.h"
 
 //Изменить следующие 9 define на свои если необходимо
-#define LCD_RS_PIN			LCD_RS_Pin	//PA10
-#define LCD_E_PIN			LCD_E_Pin	//PA8
-#define LCD_DB4_PIN			LCD_DB4_Pin	//PC6
-#define LCD_DB5_PIN			LCD_DB5_Pin	//PC7
-#define LCD_DB6_PIN			LCD_DB6_Pin	//PC8
-#define LCD_DB7_PIN			LCD_DB7_Pin	//PC9
+#define LCD_RS_PIN			GPIO_PIN_10	//PA10
+#define LCD_E_PIN			GPIO_PIN_8	//PA8
+#define LCD_DB4_PIN			GPIO_PIN_6	//PC6
+#define LCD_DB5_PIN			GPIO_PIN_7	//PC7
+#define LCD_DB6_PIN			GPIO_PIN_8	//PC8
+#define LCD_DB7_PIN			GPIO_PIN_9	//PC9
 #define LCD_GPIO_PORT1		GPIOA
 #define LCD_GPIO_PORT2		GPIOC
 
 
-#define RS_1 HAL_GPIO_WritePin (LCD_GPIO_PORT1, LCD_RS_PIN, GPIO_PIN_SET)
-#define RS_0 HAL_GPIO_WritePin (LCD_GPIO_PORT1, LCD_RS_PIN, GPIO_PIN_RESET)
+#define RS_1	LCD_GPIO_PORT1->BSRR = (uint32_t)LCD_RS_PIN
+#define RS_0	LCD_GPIO_PORT1->BRR = (uint32_t)LCD_RS_PIN
 
-#define E_1 HAL_GPIO_WritePin (LCD_GPIO_PORT1, LCD_E_PIN, GPIO_PIN_SET)
-#define E_0 HAL_GPIO_WritePin (LCD_GPIO_PORT1, LCD_E_PIN, GPIO_PIN_RESET)
+#define E_1		LCD_GPIO_PORT1->BSRR = (uint32_t)LCD_E_PIN
+#define E_0		LCD_GPIO_PORT1->BRR = (uint32_t)LCD_E_PIN
 
-#define DB4_1 HAL_GPIO_WritePin (LCD_GPIO_PORT2, LCD_DB4_PIN, GPIO_PIN_SET)
-#define DB4_0 HAL_GPIO_WritePin (LCD_GPIO_PORT2, LCD_DB4_PIN, GPIO_PIN_RESET)
+#define DB4_1	LCD_GPIO_PORT2->BSRR = (uint32_t)LCD_DB4_PIN
+#define DB4_0	LCD_GPIO_PORT2->BRR = (uint32_t)LCD_DB4_PIN
 
-#define DB5_1 HAL_GPIO_WritePin (LCD_GPIO_PORT2, LCD_DB5_PIN, GPIO_PIN_SET)
-#define DB5_0 HAL_GPIO_WritePin (LCD_GPIO_PORT2, LCD_DB5_PIN, GPIO_PIN_RESET)
+#define DB5_1	LCD_GPIO_PORT2->BSRR = (uint32_t)LCD_DB5_PIN
+#define DB5_0	LCD_GPIO_PORT2->BRR = (uint32_t)LCD_DB5_PIN
 
-#define DB6_1 HAL_GPIO_WritePin (LCD_GPIO_PORT2, LCD_DB6_PIN, GPIO_PIN_SET)
-#define DB6_0 HAL_GPIO_WritePin (LCD_GPIO_PORT2, LCD_DB6_PIN, GPIO_PIN_RESET)
+#define DB6_1	LCD_GPIO_PORT2->BSRR = (uint32_t)LCD_DB6_PIN
+#define DB6_0	LCD_GPIO_PORT2->BRR = (uint32_t)LCD_DB6_PIN
 
-#define DB7_1 HAL_GPIO_WritePin (LCD_GPIO_PORT2, LCD_DB7_PIN, GPIO_PIN_SET)
-#define DB7_0 HAL_GPIO_WritePin (LCD_GPIO_PORT2, LCD_DB7_PIN, GPIO_PIN_RESET)
+#define DB7_1	LCD_GPIO_PORT2->BSRR = (uint32_t)LCD_DB7_PIN
+#define DB7_0	LCD_GPIO_PORT2->BRR = (uint32_t)LCD_DB7_PIN
 
-//Включение или выключение ножек контроллера в соответствии с младшими битами числа
-void LCD_Send(uint8_t buf);
 
 //Отправить инструкцию дислпею
 void LCD_Send_Command (uint8_t command);
@@ -64,9 +62,6 @@ void LCD_Set_Cursor (uint8_t row, uint8_t col);
 
 //Очистить экран
 void LCD_Clear (void);
-
-//Инициализация выводов микроконтроллера
-void LCD_InitPin(void);
 
 //Инициализациия дисплея
 void LCD_Init (void);
